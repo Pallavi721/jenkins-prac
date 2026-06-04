@@ -30,10 +30,8 @@ pipeline {
 
         stage('Generate report') {
             steps {
-                bat '''
-                    echo Generating report
-                    python report_generator.py
-                '''
+                bat 'dir'   // DEBUG step
+                bat 'python report_generator.py'
             }
         }
 

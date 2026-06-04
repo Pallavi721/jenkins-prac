@@ -1,4 +1,7 @@
+import os
 import json
+
+os.makedirs("reports", exist_ok=True)
 
 with open("users.json") as file:
     users = json.load(file)
