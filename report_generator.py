@@ -6,4 +6,4 @@ with open("users.json") as file:
 with open("reports/report.txt", "w") as report:
     report.write(f"Total Users: {len(users)}\n")
 
-print("Report generated")
+print("Report generated successfully")
