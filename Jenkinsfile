@@ -1,34 +1,57 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('checkout code'){
-            steps{
+
+    environment {
+        API_TOKEN = credentials('api_token')
+    }
+
+    stages {
+
+        stage('Checkout code') {
+            steps {
                 echo 'Checking out source code'
             }
         }
-        stage('install dependencies'){
-            steps{
+
+        stage('Install dependencies') {
+            steps {
                 echo 'Installing dependencies'
             }
         }
-        stage('run python script'){
-            steps{
-                echo 'Running Python script'
+
+        stage('Run Python script') {
+            steps {
+                bat '''
+                    echo Running Python script with secure token
+                    python api_caller.py
+                '''
             }
         }
-        stage('generate report'){
-            steps{
-                echo 'Generating report'
+
+        stage('Generate report') {
+            steps {
+                bat '''
+                    echo Generating report
+                    python report_generator.py
+                '''
+            }
+        }
+
+        stage('Verify credentials usage') {
+            steps {
+                bat '''
+                    echo Using API token securely (masked in logs)
+                    echo %API_TOKEN%
+                '''
             }
         }
     }
 
-    // Post actions to be executed after pipeline finishes
-    post{
-        success{
+    post {
+        success {
             echo 'Pipeline executed successfully!'
         }
-        failure{
+        failure {
             echo 'Pipeline failed. Please check the logs for details.'
         }
     }
